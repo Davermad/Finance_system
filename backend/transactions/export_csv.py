@@ -3,11 +3,10 @@ from django.http import HttpResponse
 from .models import Transaction
 
 def export_transactions_csv(request):
-    """Экспорт транзакций в CSV"""
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="transactions.csv"'
 
-    writer = csv.writer(response)
+    writer = csv.writer(response, delimiter=';')
     writer.writerow(['ID', 'User', 'Category', 'Amount', 'Date'])
 
     transactions = Transaction.objects.filter(user=request.user)
